@@ -828,9 +828,537 @@ class UIManager {
         this.renderCurrentView();
     }
 
-    // Similar methods for spells and encounters would go here
+    // Creation modals
+    openPlayerModal() {
+        const content = `
+            <div class="form-group">
+                <label>Nom:</label>
+                <input type="text" id="newPlayerName" class="input-field" placeholder="Nom du personnage">
+            </div>
+            <div class="form-group">
+                <label>Catégorie:</label>
+                <select id="newPlayerCategory" class="input-field">
+                    ${this.dataManager.data.categories.filter(c => c.type === 'players').map(cat => 
+                        `<option value="${cat.id}">${cat.name}</option>`
+                    ).join('')}
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Points de Vie:</label>
+                <input type="number" id="newPlayerHp" class="input-field" value="25" min="1">
+            </div>
+            <div class="form-group">
+                <label>Classe d'Armure:</label>
+                <input type="number" id="newPlayerAc" class="input-field" value="15" min="10">
+            </div>
+            <div class="form-group">
+                <label>Vitesse:</label>
+                <input type="number" id="newPlayerSpeed" class="input-field" value="9" min="1">
+            </div>
+            <div class="form-group">
+                <label>Bonus d'Initiative:</label>
+                <input type="number" id="newPlayerInitiative" class="input-field" value="0" min="-5" max="5">
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>FOR:</label>
+                    <input type="number" id="newPlayerStr" class="input-field" value="10" min="1" max="20">
+                </div>
+                <div class="form-group">
+                    <label>DEX:</label>
+                    <input type="number" id="newPlayerDex" class="input-field" value="10" min="1" max="20">
+                </div>
+                <div class="form-group">
+                    <label>CON:</label>
+                    <input type="number" id="newPlayerCon" class="input-field" value="10" min="1" max="20">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>INT:</label>
+                    <input type="number" id="newPlayerInt" class="input-field" value="10" min="1" max="20">
+                </div>
+                <div class="form-group">
+                    <label>SAG:</label>
+                    <input type="number" id="newPlayerWis" class="input-field" value="10" min="1" max="20">
+                </div>
+                <div class="form-group">
+                    <label>CHA:</label>
+                    <input type="number" id="newPlayerCha" class="input-field" value="10" min="1" max="20">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Notes:</label>
+                <textarea id="newPlayerNotes" class="input-field" rows="3" placeholder="Description, traits, etc."></textarea>
+            </div>
+            <div class="modal-actions">
+                <button class="btn-primary" onclick="app.saveNewPlayer()">Créer</button>
+                <button class="btn-secondary" onclick="app.closeModal()">Annuler</button>
+            </div>
+        `;
+        this.openModal('Nouveau Personnage', content);
+    }
+
+    openMonsterModal() {
+        const content = `
+            <div class="form-group">
+                <label>Nom:</label>
+                <input type="text" id="newMonsterName" class="input-field" placeholder="Nom du monstre">
+            </div>
+            <div class="form-group">
+                <label>Catégorie:</label>
+                <select id="newMonsterCategory" class="input-field">
+                    ${this.dataManager.data.categories.filter(c => c.type === 'monsters').map(cat => 
+                        `<option value="${cat.id}">${cat.name}</option>`
+                    ).join('')}
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Points de Vie:</label>
+                <input type="number" id="newMonsterHp" class="input-field" value="30" min="1">
+            </div>
+            <div class="form-group">
+                <label>Classe d'Armure:</label>
+                <input type="number" id="newMonsterAc" class="input-field" value="12" min="10">
+            </div>
+            <div class="form-group">
+                <label>Vitesse:</label>
+                <input type="number" id="newMonsterSpeed" class="input-field" value="9" min="1">
+            </div>
+            <div class="form-group">
+                <label>Bonus d'Initiative:</label>
+                <input type="number" id="newMonsterInitiative" class="input-field" value="0" min="-5" max="5">
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>FOR:</label>
+                    <input type="number" id="newMonsterStr" class="input-field" value="10" min="1" max="20">
+                </div>
+                <div class="form-group">
+                    <label>DEX:</label>
+                    <input type="number" id="newMonsterDex" class="input-field" value="10" min="1" max="20">
+                </div>
+                <div class="form-group">
+                    <label>CON:</label>
+                    <input type="number" id="newMonsterCon" class="input-field" value="10" min="1" max="20">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>INT:</label>
+                    <input type="number" id="newMonsterInt" class="input-field" value="10" min="1" max="20">
+                </div>
+                <div class="form-group">
+                    <label>SAG:</label>
+                    <input type="number" id="newMonsterWis" class="input-field" value="10" min="1" max="20">
+                </div>
+                <div class="form-group">
+                    <label>CHA:</label>
+                    <input type="number" id="newMonsterCha" class="input-field" value="10" min="1" max="20">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Notes:</label>
+                <textarea id="newMonsterNotes" class="input-field" rows="3" placeholder="Capacités spéciales, faiblesses, etc."></textarea>
+            </div>
+            <div class="modal-actions">
+                <button class="btn-primary" onclick="app.saveNewMonster()">Créer</button>
+                <button class="btn-secondary" onclick="app.closeModal()">Annuler</button>
+            </div>
+        `;
+        this.openModal('Nouveau Monstre', content);
+    }
+
+    openSpellModal() {
+        const content = `
+            <div class="form-group">
+                <label>Nom du sort:</label>
+                <input type="text" id="newSpellName" class="input-field" placeholder="Nom du sort">
+            </div>
+            <div class="form-group">
+                <label>Description:</label>
+                <textarea id="newSpellDescription" class="input-field" rows="4" placeholder="Description détaillée du sort"></textarea>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Niveau:</label>
+                    <select id="newSpellLevel" class="input-field">
+                        <option value="0">Cantrip</option>
+                        <option value="1">Niveau 1</option>
+                        <option value="2">Niveau 2</option>
+                        <option value="3">Niveau 3</option>
+                        <option value="4">Niveau 4</option>
+                        <option value="5">Niveau 5</option>
+                        <option value="6">Niveau 6</option>
+                        <option value="7">Niveau 7</option>
+                        <option value="8">Niveau 8</option>
+                        <option value="9">Niveau 9</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>École:</label>
+                    <select id="newSpellSchool" class="input-field">
+                        <option value="Abjuration">Abjuration</option>
+                        <option value="Conjuration">Conjuration</option>
+                        <option value="Divination">Divination</option>
+                        <option value="Enchantment">Enchantment</option>
+                        <option value="Évocation">Évocation</option>
+                        <option value="Illusion">Illusion</option>
+                        <option value="Nécromancie">Nécromancie</option>
+                        <option value="Transmutation">Transmutation</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Temps d'incantation:</label>
+                    <input type="text" id="newSpellCastingTime" class="input-field" placeholder="1 action" value="1 action">
+                </div>
+                <div class="form-group">
+                    <label>Portée:</label>
+                    <input type="text" id="newSpellRange" class="input-field" placeholder="36m" value="36m">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Durée:</label>
+                    <input type="text" id="newSpellDuration" class="input-field" placeholder="Instantanée" value="Instantanée">
+                </div>
+                <div class="form-group">
+                    <label>Composantes:</label>
+                    <input type="text" id="newSpellComponents" class="input-field" placeholder="V, S" value="V, S">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" id="newSpellConcentration"> 
+                    Requiert la concentration
+                </label>
+            </div>
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" id="newSpellRitual"> 
+                    Peut être lancé comme rituel
+                </label>
+            </div>
+            <div class="modal-actions">
+                <button class="btn-primary" onclick="app.saveNewSpell()">Créer</button>
+                <button class="btn-secondary" onclick="app.closeModal()">Annuler</button>
+            </div>
+        `;
+        this.openModal('Nouveau Sort', content);
+    }
+
+    openEncounterModal() {
+        const content = `
+            <div class="form-group">
+                <label>Nom de la rencontre:</label>
+                <input type="text" id="newEncounterName" class="input-field" placeholder="Nom de la rencontre">
+            </div>
+            <div class="form-group">
+                <label>Catégorie:</label>
+                <select id="newEncounterCategory" class="input-field">
+                    ${this.dataManager.data.categories.filter(c => c.type === 'encounters').map(cat => 
+                        `<option value="${cat.id}">${cat.name}</option>`
+                    ).join('')}
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Description:</label>
+                <textarea id="newEncounterDescription" class="input-field" rows="3" placeholder="Description de la rencontre"></textarea>
+            </div>
+            <div class="form-group">
+                <label>Notes:</label>
+                <textarea id="newEncounterNotes" class="input-field" rows="2" placeholder="Stratégie, environnement, etc."></textarea>
+            </div>
+            <div class="form-group">
+                <label>Joueurs participants:</label>
+                <div id="encounterPlayers" class="checkbox-group">
+                    ${this.dataManager.data.creatures.filter(c => c.type === 'player').map(creature => `
+                        <label>
+                            <input type="checkbox" name="encounterPlayers" value="${creature.id}">
+                            ${creature.name}
+                        </label>
+                    `).join('')}
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Monstres participants:</label>
+                <div id="encounterMonsters" class="monster-selection">
+                    ${this.dataManager.data.creatures.filter(c => c.type === 'monster').map(creature => `
+                        <div class="monster-item">
+                            <label>
+                                <input type="checkbox" name="encounterMonsters" value="${creature.id}">
+                                ${creature.name}
+                            </label>
+                            <input type="number" class="monster-quantity" placeholder="Qté" value="1" min="1" data-monster-id="${creature.id}">
+                            <input type="text" class="monster-marker" placeholder="Marqueur (A, B, C...)" data-monster-id="${creature.id}">
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="btn-primary" onclick="app.saveNewEncounter()">Créer</button>
+                <button class="btn-secondary" onclick="app.closeModal()">Annuler</button>
+            </div>
+        `;
+        this.openModal('Nouvelle Rencontre', content);
+    }
+
+    // Save functions
+    saveNewPlayer() {
+        const name = document.getElementById('newPlayerName').value.trim();
+        if (!name) {
+            alert('Veuillez entrer un nom');
+            return;
+        }
+
+        const player = {
+            id: `player-${Date.now()}`,
+            name: name,
+            type: 'player',
+            category: document.getElementById('newPlayerCategory').value,
+            stats: {
+                hp: parseInt(document.getElementById('newPlayerHp').value),
+                maxHp: parseInt(document.getElementById('newPlayerHp').value),
+                initiative: parseInt(document.getElementById('newPlayerInitiative').value),
+                ac: parseInt(document.getElementById('newPlayerAc').value),
+                speed: parseInt(document.getElementById('newPlayerSpeed').value),
+                strength: parseInt(document.getElementById('newPlayerStr').value),
+                dexterity: parseInt(document.getElementById('newPlayerDex').value),
+                constitution: parseInt(document.getElementById('newPlayerCon').value),
+                intelligence: parseInt(document.getElementById('newPlayerInt').value),
+                wisdom: parseInt(document.getElementById('newPlayerWis').value),
+                charisma: parseInt(document.getElementById('newPlayerCha').value)
+            },
+            spells: [],
+            notes: document.getElementById('newPlayerNotes').value
+        };
+
+        this.dataManager.data.creatures.push(player);
+        this.dataManager.saveData();
+        this.renderCurrentView();
+        this.closeModal();
+    }
+
+    saveNewMonster() {
+        const name = document.getElementById('newMonsterName').value.trim();
+        if (!name) {
+            alert('Veuillez entrer un nom');
+            return;
+        }
+
+        const monster = {
+            id: `monster-${Date.now()}`,
+            name: name,
+            type: 'monster',
+            category: document.getElementById('newMonsterCategory').value,
+            stats: {
+                hp: parseInt(document.getElementById('newMonsterHp').value),
+                maxHp: parseInt(document.getElementById('newMonsterHp').value),
+                initiative: parseInt(document.getElementById('newMonsterInitiative').value),
+                ac: parseInt(document.getElementById('newMonsterAc').value),
+                speed: parseInt(document.getElementById('newMonsterSpeed').value),
+                strength: parseInt(document.getElementById('newMonsterStr').value),
+                dexterity: parseInt(document.getElementById('newMonsterDex').value),
+                constitution: parseInt(document.getElementById('newMonsterCon').value),
+                intelligence: parseInt(document.getElementById('newMonsterInt').value),
+                wisdom: parseInt(document.getElementById('newMonsterWis').value),
+                charisma: parseInt(document.getElementById('newMonsterCha').value)
+            },
+            spells: [],
+            notes: document.getElementById('newMonsterNotes').value
+        };
+
+        this.dataManager.data.creatures.push(monster);
+        this.dataManager.saveData();
+        this.renderCurrentView();
+        this.closeModal();
+    }
+
+    saveNewSpell() {
+        const name = document.getElementById('newSpellName').value.trim();
+        const description = document.getElementById('newSpellDescription').value.trim();
+        
+        if (!name || !description) {
+            alert('Veuillez remplir le nom et la description');
+            return;
+        }
+
+        const spell = {
+            id: `spell-${Date.now()}`,
+            name: name,
+            description: description,
+            level: parseInt(document.getElementById('newSpellLevel').value),
+            school: document.getElementById('newSpellSchool').value,
+            castingTime: document.getElementById('newSpellCastingTime').value,
+            range: document.getElementById('newSpellRange').value,
+            components: document.getElementById('newSpellComponents').value,
+            duration: document.getElementById('newSpellDuration').value,
+            concentration: document.getElementById('newSpellConcentration').checked,
+            ritual: document.getElementById('newSpellRitual').checked
+        };
+
+        this.dataManager.data.spells.push(spell);
+        this.dataManager.saveData();
+        this.renderCurrentView();
+        this.closeModal();
+    }
+
+    saveNewEncounter() {
+        const name = document.getElementById('newEncounterName').value.trim();
+        const description = document.getElementById('newEncounterDescription').value.trim();
+        
+        if (!name || !description) {
+            alert('Veuillez remplir le nom et la description');
+            return;
+        }
+
+        // Get selected players
+        const playerCheckboxes = document.querySelectorAll('input[name="encounterPlayers"]:checked');
+        const players = Array.from(playerCheckboxes).map(cb => cb.value);
+
+        // Get selected monsters
+        const monsters = [];
+        const monsterCheckboxes = document.querySelectorAll('input[name="encounterMonsters"]:checked');
+        monsterCheckboxes.forEach(checkbox => {
+            const monsterId = checkbox.value;
+            const quantity = parseInt(document.querySelector(`.monster-quantity[data-monster-id="${monsterId}"]`).value) || 1;
+            const marker = document.querySelector(`.monster-marker[data-monster-id="${monsterId}"]`).value || '';
+            
+            for (let i = 0; i < quantity; i++) {
+                monsters.push({
+                    creatureId: monsterId,
+                    id: `monster-instance-${Date.now()}-${i}`,
+                    marker: i === 0 ? marker : (marker ? `${marker}${i + 1}` : '')
+                });
+            }
+        });
+
+        if (players.length === 0 && monsters.length === 0) {
+            alert('Veuillez sélectionner au moins un joueur ou un monstre');
+            return;
+        }
+
+        const encounter = {
+            id: `encounter-${Date.now()}`,
+            name: name,
+            category: document.getElementById('newEncounterCategory').value,
+            description: description,
+            notes: document.getElementById('newEncounterNotes').value,
+            players: players,
+            monsters: monsters
+        };
+
+        this.dataManager.data.encounters.push(encounter);
+        this.dataManager.saveData();
+        this.renderCurrentView();
+        this.closeModal();
+    }
+
+    // Edit functions
     editSpell(id) {
-        alert('Édition de sorts - À implémenter');
+        const spell = this.dataManager.data.spells.find(s => s.id === id);
+        if (!spell) return;
+
+        const content = `
+            <div class="form-group">
+                <label>Nom du sort:</label>
+                <input type="text" id="editSpellName" class="input-field" value="${spell.name}">
+            </div>
+            <div class="form-group">
+                <label>Description:</label>
+                <textarea id="editSpellDescription" class="input-field" rows="4">${spell.description}</textarea>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Niveau:</label>
+                    <select id="editSpellLevel" class="input-field">
+                        <option value="0" ${spell.level === 0 ? 'selected' : ''}>Cantrip</option>
+                        <option value="1" ${spell.level === 1 ? 'selected' : ''}>Niveau 1</option>
+                        <option value="2" ${spell.level === 2 ? 'selected' : ''}>Niveau 2</option>
+                        <option value="3" ${spell.level === 3 ? 'selected' : ''}>Niveau 3</option>
+                        <option value="4" ${spell.level === 4 ? 'selected' : ''}>Niveau 4</option>
+                        <option value="5" ${spell.level === 5 ? 'selected' : ''}>Niveau 5</option>
+                        <option value="6" ${spell.level === 6 ? 'selected' : ''}>Niveau 6</option>
+                        <option value="7" ${spell.level === 7 ? 'selected' : ''}>Niveau 7</option>
+                        <option value="8" ${spell.level === 8 ? 'selected' : ''}>Niveau 8</option>
+                        <option value="9" ${spell.level === 9 ? 'selected' : ''}>Niveau 9</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>École:</label>
+                    <select id="editSpellSchool" class="input-field">
+                        <option value="Abjuration" ${spell.school === 'Abjuration' ? 'selected' : ''}>Abjuration</option>
+                        <option value="Conjuration" ${spell.school === 'Conjuration' ? 'selected' : ''}>Conjuration</option>
+                        <option value="Divination" ${spell.school === 'Divination' ? 'selected' : ''}>Divination</option>
+                        <option value="Enchantment" ${spell.school === 'Enchantment' ? 'selected' : ''}>Enchantment</option>
+                        <option value="Évocation" ${spell.school === 'Évocation' ? 'selected' : ''}>Évocation</option>
+                        <option value="Illusion" ${spell.school === 'Illusion' ? 'selected' : ''}>Illusion</option>
+                        <option value="Nécromancie" ${spell.school === 'Nécromancie' ? 'selected' : ''}>Nécromancie</option>
+                        <option value="Transmutation" ${spell.school === 'Transmutation' ? 'selected' : ''}>Transmutation</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Temps d'incantation:</label>
+                    <input type="text" id="editSpellCastingTime" class="input-field" value="${spell.castingTime}">
+                </div>
+                <div class="form-group">
+                    <label>Portée:</label>
+                    <input type="text" id="editSpellRange" class="input-field" value="${spell.range}">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Durée:</label>
+                    <input type="text" id="editSpellDuration" class="input-field" value="${spell.duration}">
+                </div>
+                <div class="form-group">
+                    <label>Composantes:</label>
+                    <input type="text" id="editSpellComponents" class="input-field" value="${spell.components}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" id="editSpellConcentration" ${spell.concentration ? 'checked' : ''}> 
+                    Requiert la concentration
+                </label>
+            </div>
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" id="editSpellRitual" ${spell.ritual ? 'checked' : ''}> 
+                    Peut être lancé comme rituel
+                </label>
+            </div>
+            <div class="modal-actions">
+                <button class="btn-primary" onclick="app.saveEditSpell('${spell.id}')">Sauvegarder</button>
+                <button class="btn-secondary" onclick="app.closeModal()">Annuler</button>
+            </div>
+        `;
+
+        this.openModal(`Modifier ${spell.name}`, content);
+    }
+
+    saveEditSpell(id) {
+        const spell = this.dataManager.data.spells.find(s => s.id === id);
+        if (!spell) return;
+
+        spell.name = document.getElementById('editSpellName').value;
+        spell.description = document.getElementById('editSpellDescription').value;
+        spell.level = parseInt(document.getElementById('editSpellLevel').value);
+        spell.school = document.getElementById('editSpellSchool').value;
+        spell.castingTime = document.getElementById('editSpellCastingTime').value;
+        spell.range = document.getElementById('editSpellRange').value;
+        spell.components = document.getElementById('editSpellComponents').value;
+        spell.duration = document.getElementById('editSpellDuration').value;
+        spell.concentration = document.getElementById('editSpellConcentration').checked;
+        spell.ritual = document.getElementById('editSpellRitual').checked;
+
+        this.dataManager.saveData();
+        this.renderCurrentView();
+        this.closeModal();
     }
 
     deleteSpell(id) {
@@ -1084,10 +1612,10 @@ class UIManager {
 // Global functions for onclick handlers
 let app;
 
-window.openPlayerModal = () => alert('Création de personnages - À implémenter');
-window.openMonsterModal = () => alert('Création de monstres - À implémenter');
-window.openSpellModal = () => alert('Création de sorts - À implémenter');
-window.openEncounterModal = () => alert('Création de rencontres - À implémenter');
+window.openPlayerModal = () => app.openPlayerModal();
+window.openMonsterModal = () => app.openMonsterModal();
+window.openSpellModal = () => app.openSpellModal();
+window.openEncounterModal = () => app.openEncounterModal();
 window.startCombatSetup = () => app.startCombatSetup();
 window.nextTurn = () => app.nextTurn();
 window.endCombat = () => app.endCombat();
