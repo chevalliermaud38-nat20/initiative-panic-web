@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Initiative Panic - Gestionnaire de combats D&D 2024</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="title-section">
+                    <h1 class="main-title">Initiative Panic</h1>
+                    <p class="subtitle">Gestionnaire de combats D&D 2024</p>
+                </div>
+                <button id="syncBtn" class="sync-btn" title="Synchronisation GitHub">🔄 Sync</button>
+            </div>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="navigation">
+            <div class="nav-buttons">
+                <button class="nav-btn active" data-view="players">⚔️ Personnages</button>
+                <button class="nav-btn" data-view="monsters">👹 Monstres</button>
+                <button class="nav-btn" data-view="spells">📖 Sorts</button>
+                <button class="nav-btn" data-view="encounters">⚡ Rencontres</button>
+                <button class="nav-btn" data-view="combat">🎯 Combat</button>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Players View -->
+            <div id="players-view" class="view active">
+                <div class="view-header">
+                    <h2>Personnages Joueurs</h2>
+                    <button class="btn-primary" onclick="openPlayerModal()">➕ Nouveau Personnage</button>
+                </div>
+                <div class="filter-section">
+                    <select id="playerCategoryFilter" class="filter-select">
+                        <option value="">Toutes les catégories</option>
+                    </select>
+                    <input type="text" id="playerSearch" class="search-input" placeholder="Rechercher un personnage...">
+                </div>
+                <div id="playersList" class="cards-grid"></div>
+            </div>
+
+            <!-- Monsters View -->
+            <div id="monsters-view" class="view">
+                <div class="view-header">
+                    <h2>Monstres</h2>
+                    <button class="btn-primary" onclick="openMonsterModal()">➕ Nouveau Monstre</button>
+                </div>
+                <div class="filter-section">
+                    <select id="monsterCategoryFilter" class="filter-select">
+                        <option value="">Toutes les catégories</option>
+                    </select>
+                    <input type="text" id="monsterSearch" class="search-input" placeholder="Rechercher un monstre...">
+                </div>
+                <div id="monstersList" class="cards-grid"></div>
+            </div>
+
+            <!-- Spells View -->
+            <div id="spells-view" class="view">
+                <div class="view-header">
+                    <h2>Grimoire de Sorts</h2>
+                    <button class="btn-primary" onclick="openSpellModal()">➕ Nouveau Sort</button>
+                </div>
+                <div class="filter-section">
+                    <select id="spellLevelFilter" class="filter-select">
+                        <option value="">Tous les niveaux</option>
+                        <option value="0">Cantrips</option>
+                        <option value="1">Niveau 1</option>
+                        <option value="2">Niveau 2</option>
+                        <option value="3">Niveau 3</option>
+                        <option value="4">Niveau 4</option>
+                        <option value="5">Niveau 5</option>
+                        <option value="6">Niveau 6</option>
+                        <option value="7">Niveau 7</option>
+                        <option value="8">Niveau 8</option>
+                        <option value="9">Niveau 9</option>
+                    </select>
+                    <input type="text" id="spellSearch" class="search-input" placeholder="Rechercher un sort...">
+                </div>
+                <div id="spellsList" class="cards-grid"></div>
+            </div>
+
+            <!-- Encounters View -->
+            <div id="encounters-view" class="view">
+                <div class="view-header">
+                    <h2>Rencontres</h2>
+                    <button class="btn-primary" onclick="openEncounterModal()">➕ Nouvelle Rencontre</button>
+                </div>
+                <div class="filter-section">
+                    <select id="encounterCategoryFilter" class="filter-select">
+                        <option value="">Toutes les catégories</option>
+                    </select>
+                    <input type="text" id="encounterSearch" class="search-input" placeholder="Rechercher une rencontre...">
+                </div>
+                <div id="encountersList" class="cards-grid"></div>
+            </div>
+
+            <!-- Combat View -->
+            <div id="combat-view" class="view">
+                <div class="view-header">
+                    <h2>Combat</h2>
+                </div>
+                <div class="combat-setup">
+                    <div class="encounter-selection">
+                        <label for="combatEncounterSelect">Sélectionner une rencontre:</label>
+                        <select id="combatEncounterSelect" class="combat-select">
+                            <option value="">Choisir une rencontre...</option>
+                        </select>
+                        <button class="btn-primary" onclick="startCombatSetup()">⚔️ Démarrer Combat</button>
+                    </div>
+                </div>
+                <div id="combatInterface" class="combat-interface hidden">
+                    <div class="combat-left">
+                        <div class="current-turn">
+                            <h3>Tour Actuel</h3>
+                            <div id="currentTurnInfo"></div>
+                        </div>
+                        <div class="combat-controls">
+                            <button class="btn-primary" onclick="nextTurn()">➡️ Tour Suivant</button>
+                            <button class="btn-secondary" onclick="endCombat()">🏁 Finir Combat</button>
+                        </div>
+                    </div>
+                    <div class="combat-right">
+                        <div class="initiative-list">
+                            <h3>Ordre d'Initiative</h3>
+                            <div id="initiativeOrder"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Initiative Panic - Créé avec passion pour les maîtres du jeu</p>
+        </footer>
+    </div>
+
+    <!-- Modals -->
+    <div id="modalOverlay" class="modal-overlay hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Titre</h3>
+                <button class="modal-close" onclick="closeModal()">✕</button>
+            </div>
+            <div id="modalBody" class="modal-body"></div>
+        </div>
+    </div>
+
+    <!-- Sync Modal -->
+    <div id="syncModal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Synchronisation GitHub</h3>
+                <button class="modal-close" onclick="closeSyncModal()">✕</button>
+            </div>
+            <div class="modal-body">
+                <div id="syncStatus" class="sync-status"></div>
+                <div id="syncConfig" class="sync-config hidden">
+                    <h4>Configuration GitHub</h4>
+                    <div class="form-group">
+                        <label>Token d'accès GitHub:</label>
+                        <input type="password" id="githubToken" class="input-field" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
+                        <small>Créez un token depuis: Settings → Developer settings → Personal access tokens</small>
+                    </div>
+                    <div class="form-group">
+                        <label>Propriétaire du repository:</label>
+                        <input type="text" id="githubOwner" class="input-field" placeholder="votre-username">
+                    </div>
+                    <div class="form-group">
+                        <label>Nom du repository:</label>
+                        <input type="text" id="githubRepo" class="input-field" placeholder="initiative-panic-data">
+                    </div>
+                    <div class="modal-actions">
+                        <button class="btn-primary" onclick="saveGitHubConfig()">Configurer</button>
+                        <button class="btn-secondary" onclick="closeSyncModal()">Annuler</button>
+                    </div>
+                </div>
+                <div id="syncActions" class="sync-actions hidden">
+                    <div class="sync-info">
+                        <p><strong>Repository:</strong> <span id="syncRepoInfo"></span></p>
+                        <p><strong>Dernière synchronisation:</strong> <span id="syncLastTime"></span></p>
+                    </div>
+                    <div class="modal-actions">
+                        <button class="btn-primary" onclick="exportToGitHub()">📤 Exporter vers GitHub</button>
+                        <button class="btn-primary" onclick="importFromGitHub()">📥 Importer depuis GitHub</button>
+                        <button class="btn-secondary" onclick="disconnectGitHub()">Déconnecter</button>
+                        <button class="btn-secondary" onclick="closeSyncModal()">Fermer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
