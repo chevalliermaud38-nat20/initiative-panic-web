@@ -1,0 +1,206 @@
+{
+  "creatures": [
+    {
+      "id": "player-1",
+      "name": "Aldric le Guerrier",
+      "type": "player",
+      "category": "players-heroes",
+      "stats": {
+        "hp": 45,
+        "maxHp": 45,
+        "initiative": 3,
+        "ac": 18,
+        "speed": 9,
+        "strength": 18,
+        "dexterity": 14,
+        "constitution": 16,
+        "intelligence": 12,
+        "wisdom": 14,
+        "charisma": 10
+      },
+      "spells": [],
+      "notes": "Guerrier expérimenté avec un grand sens du devoir."
+    },
+    {
+      "id": "player-2",
+      "name": "Elara la Magicienne",
+      "type": "player",
+      "category": "players-heroes",
+      "stats": {
+        "hp": 22,
+        "maxHp": 22,
+        "initiative": 2,
+        "ac": 14,
+        "speed": 9,
+        "strength": 8,
+        "dexterity": 14,
+        "constitution": 12,
+        "intelligence": 18,
+        "wisdom": 12,
+        "charisma": 16
+      },
+      "spells": [
+        "spell-fire-bolt",
+        "spell-magic-missile",
+        "spell-shield"
+      ],
+      "notes": "Magicienne puissante spécialisée en évocation."
+    }
+  ],
+  "spells": [
+    {
+      "id": "spell-fire-bolt",
+      "name": "Éclair de Feu",
+      "description": "Vous lancez un éclair de feu sur une créature que vous pouvez voir. La cible doit réussir un jet de sauvegarde de Dextérité ou subit 1d10 dégâts de feu.",
+      "level": 0,
+      "school": "Évocation",
+      "castingTime": "1 action",
+      "range": "36m",
+      "components": "V, S",
+      "duration": "Instantanée",
+      "concentration": false,
+      "ritual": false
+    },
+    {
+      "id": "spell-magic-missile",
+      "name": "Missile Magique",
+      "description": "Vous créez trois missiles d'énergie pure qui frappent des cibles que vous pouvez voir. Chaque missile inflige 1d4+1 dégâts de force.",
+      "level": 0,
+      "school": "Évocation",
+      "castingTime": "1 action",
+      "range": "36m",
+      "components": "V, S",
+      "duration": "Instantanée",
+      "concentration": false,
+      "ritual": false
+    },
+    {
+      "id": "spell-shield",
+      "name": "Bouclier",
+      "description": "Une barrière de force magique apparaît et vous protège. Jusqu'à la fin de votre prochain tour, vous avez une protection contre les missiles magiques.",
+      "level": 1,
+      "school": "Abjuration",
+      "castingTime": "1 réaction",
+      "range": "Soi",
+      "components": "V, S",
+      "duration": "1 round",
+      "concentration": false,
+      "ritual": false
+    },
+    {
+      "id": "spell-cure-wounds",
+      "name": "Soins Légers",
+      "description": "Une créature que vous touche récupère 1d8 + votre modificateur de caractéristique d'incantation points de vie.",
+      "level": 1,
+      "school": "Conjuration",
+      "castingTime": "1 action",
+      "range": "Toucher",
+      "components": "V, S",
+      "duration": "Instantanée",
+      "concentration": false,
+      "ritual": false
+    },
+    {
+      "id": "spell-fireball",
+      "name": "Boule de Feu",
+      "description": "Une boule de feu explosante frappe un point que vous choisissez. Chaque créature dans un rayon de 6m doit réussir un jet de sauvegarde de Dextérité ou subit 8d6 dégâts de feu.",
+      "level": 3,
+      "school": "Évocation",
+      "castingTime": "1 action",
+      "range": "45m",
+      "components": "V, S, M",
+      "duration": "Instantanée",
+      "concentration": false,
+      "ritual": false
+    }
+  ],
+  "encounters": [],
+  "categories": [
+    {
+      "id": "players-heroes",
+      "name": "Héros",
+      "type": "players"
+    },
+    {
+      "id": "players-npcs",
+      "name": "PNJ Alliés",
+      "type": "players"
+    },
+    {
+      "id": "players-veterans",
+      "name": "Vétérans",
+      "type": "players"
+    },
+    {
+      "id": "monsters-humanoids",
+      "name": "Humanoïdes",
+      "type": "monsters"
+    },
+    {
+      "id": "monsters-undead",
+      "name": "Morts-vivants",
+      "type": "monsters"
+    },
+    {
+      "id": "monsters-beasts",
+      "name": "Bêtes",
+      "type": "monsters"
+    },
+    {
+      "id": "monsters-dragons",
+      "name": "Dragons",
+      "type": "monsters"
+    },
+    {
+      "id": "monsters-aberrations",
+      "name": "Aberrations",
+      "type": "monsters"
+    },
+    {
+      "id": "monsters-fiends",
+      "name": "Diables et Démons",
+      "type": "monsters"
+    },
+    {
+      "id": "spells-basic",
+      "name": "Sorts de Base",
+      "type": "spells"
+    },
+    {
+      "id": "spells-combat",
+      "name": "Sorts de Combat",
+      "type": "spells"
+    },
+    {
+      "id": "spells-healing",
+      "name": "Sorts de Soin",
+      "type": "spells"
+    },
+    {
+      "id": "spells-utility",
+      "name": "Sorts Utilitaires",
+      "type": "spells"
+    },
+    {
+      "id": "encounters-dungeons",
+      "name": "Donjons",
+      "type": "encounters"
+    },
+    {
+      "id": "encounters-wilderness",
+      "name": "Nature Sauvage",
+      "type": "encounters"
+    },
+    {
+      "id": "encounters-urban",
+      "name": "Urbain",
+      "type": "encounters"
+    },
+    {
+      "id": "encounters-boss",
+      "name": "Boss",
+      "type": "encounters"
+    }
+  ],
+  "currentCombat": null
+}
